@@ -2,18 +2,62 @@
     "name": "dw3mmo-launcher",
     "version": "1.0.0",
     "main": "src/main.js",
+    "author": "Your Name",
+    "license": "MIT",
+    "description": "Game launcher for DW3 MMO",
     "scripts": {
         "dev": "vite",
-        "electron": "electron .",
-        "build": "vite build"
+        "electron": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+        "build": "vite build",
+        "dist": "npm run build && electron-builder"
+    },
+    "build": {
+        "appId": "com.yourname.dw3mmo.launcher",
+        "productName": "DW3 MMO Launcher",
+        "files": [
+            "dist/**/*",
+            "src/main.js",
+            "src/preload.js",
+            "package.json"
+        ],
+        "directories": {
+            "buildResources": "assets"
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "assets/icon.ico",
+            "signAndEditExecutable": false
+        },
+        "linux": {
+            "target": "AppImage",
+            "icon": "assets/icon.png"
+        },
+        "mac": {
+            "target": "dmg",
+            "icon": "assets/icon.icns"
+        },
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "YOUR_USERNAME",
+                "repo": "YOUR_REPO_NAME"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react": "^4.0.0",
+        "cross-env": "^10.0.0",
+        "electron": "^32.0.0",
+        "electron-builder": "^26.0.12",
+        "vite": "^5.0.0"
     },
     "dependencies": {
-        "electron": "^32.0.0",
+        "electron-updater": "^6.6.2",
         "react": "^18.0.0",
         "react-dom": "^18.0.0"
     },
-    "devDependencies": {
-        "vite": "^5.0.0",
-        "@vitejs/plugin-react": "^4.0.0"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/SalahAmer2/dw3mmo.git"
     }
 }
