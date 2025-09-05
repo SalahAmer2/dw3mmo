@@ -36,13 +36,11 @@
             "target": "dmg",
             "icon": "assets/icon.icns"
         },
-        "publish": [
-            {
-                "provider": "github",
-                "owner": "YOUR_USERNAME",
-                "repo": "YOUR_REPO_NAME"
-            }
-        ]
+        "publish": [{
+            "provider": "github",
+            "owner": "SalahAmer2",
+            "repo": "dw3mmo"
+        }]
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.0.0",

@@ -1,10 +1,12 @@
 // launcher/src/main.js
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, dialog } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
 
+let mainWindow;
+
 function createWindow() {
-    const win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1000,
         height: 700,
         webPreferences: {
@@ -14,17 +16,27 @@ function createWindow() {
 
     if (process.env.VITE_DEV_SERVER_URL) {
         // 🟢 Development: load Vite server
-        win.loadURL(process.env.VITE_DEV_SERVER_URL);
+        mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
     } else {
         // 🔵 Production: load built files
-        win.loadFile(path.join(__dirname, "../dist/index.html"));
+        mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
     }
 
-    // Check for updates after window is ready
-    win.once("ready-to-show", () => {
-        autoUpdater.checkForUpdatesAndNotify();
+    // Check for updates once window is ready
+    mainWindow.once("ready-to-show", () => {
+        if (app.isPackaged) {
+            autoUpdater.autoDownload = false; // interactive flow
+            autoUpdater.checkForUpdates();
+        }
     });
 }
+
+// Configure autoUpdater to use GitHub releases
+autoUpdater.setFeedURL({
+    provider: "github",
+    owner: "SalahAmer2",   // 👈 replace with your GitHub username/org
+    repo: "dw3mmo",          // 👈 replace with your repo name
+});
 
 // App ready
 app.whenReady().then(() => {
@@ -39,7 +51,7 @@ app.whenReady().then(() => {
 autoUpdater.on("update-available", () => {
     dialog.showMessageBox({
         type: "info",
-        title: "Update available",
+        title: "Update Available",
         message: "A new version is available. Do you want to download it now?",
         buttons: ["Yes", "Later"]
     }).then(result => {
@@ -52,7 +64,7 @@ autoUpdater.on("update-available", () => {
 autoUpdater.on("update-downloaded", () => {
     dialog.showMessageBox({
         type: "info",
-        title: "Update ready",
+        title: "Update Ready",
         message: "Update downloaded. Do you want to restart now?",
         buttons: ["Yes", "Later"]
     }).then(result => {
@@ -60,6 +72,10 @@ autoUpdater.on("update-downloaded", () => {
             autoUpdater.quitAndInstall();
         }
     });
+});
+
+autoUpdater.on("error", (err) => {
+    console.error("Update error:", err);
 });
 
 // Quit when all windows closed
