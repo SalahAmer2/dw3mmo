@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>DW3 MMO Emulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: black;
+            color: white;
+            text-align: center;
+        }
+        
+        #game {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">Loading Emulator...</div>
+
+    <script>
+        // 🎮 EmulatorJS settings
+        window.EJS_player = "#game";
+        window.EJS_core = "psx";
+        window.EJS_gameName = "Digimon World 3";
+        window.EJS_startOnLoaded = true;
+        window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+
+        // If we passed a ROM via query param (ex: ?rom=/uploads/dw3.bin)
+        const params = new URLSearchParams(window.location.search);
+        const romUrl = params.get("rom");
+        if (romUrl) {
+            window.EJS_gameUrl = romUrl;
+        } else {
+            // fallback demo
+            window.EJS_gameUrl = "https://cdn.emulatorjs.org/roms/psx/Digimon World 3 (USA).bin";
+        }
+    </script>
+
+    <!-- <script src="https://cdn.emulatorjs.org/emulator.js"></script>  This doesn't work, it has to use the loader (psx loader) after uploading the rom to work -->
+    <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+
+</html>

@@ -99,6 +99,10 @@ autoUpdater.on("error", (err) => {
     console.error("Update error:", err);
 });
 
+app.commandLine.appendSwitch("enable-features", "WebAssemblySimd,SharedArrayBuffer,WebAssemblyThreads");
+app.commandLine.appendSwitch("enable-gpu-rasterization");
+app.commandLine.appendSwitch("enable-zero-copy");
+
 // Quit when all windows closed
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();

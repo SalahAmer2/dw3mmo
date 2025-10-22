@@ -1,32 +1,181 @@
-// src/App.js
 import { useState } from "react";
+import FPSCounter from "./components/FPSCounter";
 
 function App() {
-    const [rom, setRom] = useState(null);
+    const [romUrl, setRomUrl] = useState(null);
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        const arrayBuffer = await file.arrayBuffer();
-        setRom(arrayBuffer);
-        console.log("ROM loaded:", file.name, arrayBuffer.byteLength);
+
+        // create a blob URL for the uploaded ROM
+        const blobUrl = URL.createObjectURL(file);
+        setRomUrl(blobUrl);
     };
 
     return (
         <div className="p-4 text-center">
-            {!rom ? (
+            {!romUrl ? (
                 <>
-                    <h1 className="text-xl font-bold mb-2">Upload your Digimon World 3 ROM</h1>
+                    <h1 className="text-xl font-bold mb-2 text-white">Upload your Digimon World 3 ROM</h1>
                     <input type="file" accept=".bin,.iso,.img" onChange={handleFileChange} />
                 </>
             ) : (
-                <h2>ROM loaded successfully! 🎮</h2>
+                <>
+                    <iframe
+                        title="DW3 Emulator"
+                        src={`/emulatorjs/index.html?rom=${encodeURIComponent(romUrl)}`}
+                        style={{ width: "100%", height: "90vh", border: "none" }}
+                    />
+                    <FPSCounter />
+                </>
             )}
         </div>
     );
 }
 
 export default App;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// import { useState } from "react";
+// import EmulatorWrapper from "./components/EmulatorWrapper";
+
+// export default function App() {
+//     const [romFile, setRomFile] = useState(null);
+
+//     const handleFileChange = (e) => {
+//         const file = e.target.files[0];
+//         if (file) setRomFile(file);
+//     };
+
+//     return (
+//         <div className="p-4 text-center">
+//             {!romFile ? (
+//                 <>
+//                     <h1 className="text-xl font-bold mb-2">
+//                         Upload your Digimon World 3 ROM
+//                     </h1>
+//                     <input type="file" accept=".bin,.iso,.img" onChange={handleFileChange} />
+//                 </>
+//             ) : (
+//                 <EmulatorWrapper romFile={romFile} />
+//             )}
+//         </div>
+//     );
+// }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// import { useState } from "react";
+// import EmulatorWrapper from "./components/EmulatorWrapper";
+
+// export default function App() {
+//     const [romBuffer, setRomBuffer] = useState(null);
+
+//     const handleFileChange = async (e) => {
+//         const file = e.target.files[0];
+//         if (!file) return;
+//         const buffer = await file.arrayBuffer();
+//         setRomBuffer(buffer);
+//     };
+
+//     return (
+//         <div className="p-4 text-center text-white bg-gray-900 h-screen">
+//             {!romBuffer ? (
+//                 <>
+//                     <h1 className="text-2xl font-bold mb-4">Upload your Digimon World 3 ROM</h1>
+//                     <input type="file" accept=".bin,.iso,.img" onChange={handleFileChange} />
+//                 </>
+//             ) : (
+//                 <EmulatorWrapper romArrayBuffer={romBuffer} />
+//             )}
+//         </div>
+//     );
+// }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// import { useState } from "react";
+// import EmulatorWrapper from "./components/EmulatorWrapper";
+
+// function App() {
+//     const [rom, setRom] = useState(null);
+//     const [romName, setRomName] = useState("");
+
+//     const handleFileChange = async (e) => {
+//         const file = e.target.files[0];
+//         if (!file) return;
+//         const arrayBuffer = await file.arrayBuffer();
+//         setRom(arrayBuffer);
+//         setRomName(file.name);
+//         console.log("ROM loaded:", file.name, arrayBuffer.byteLength);
+//     };
+
+//     return (
+//         <div className="p-4 text-center min-h-screen bg-gray-100">
+//             {!rom ? (
+//                 <>
+//                     <h1 className="text-2xl font-bold mb-4">Upload your Digimon World 3 ROM</h1>
+//                     <input
+//                         type="file"
+//                         accept=".bin,.iso,.img"
+//                         onChange={handleFileChange}
+//                         className="border p-2 rounded cursor-pointer"
+//                     />
+//                 </>
+//             ) : (
+//                 <div>
+//                     <h2 className="text-lg font-semibold mb-2">
+//                         Loaded: {romName} 🎮 Starting emulator...
+//                     </h2>
+//                     <div
+//                         style={{
+//                             width: "100%",
+//                             height: "480px",
+//                             background: "#000",
+//                             margin: "0 auto",
+//                             borderRadius: "8px",
+//                             overflow: "hidden",
+//                         }}
+//                     >
+//                         <EmulatorWrapper romArrayBuffer={rom} />
+//                     </div>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }
+
+// export default App;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// // src/App.jsx
+// import { useState } from "react";
+
+// function App() {
+//     const [rom, setRom] = useState(null);
+
+//     const handleFileChange = async (e) => {
+//         const file = e.target.files[0];
+//         if (!file) return;
+//         const arrayBuffer = await file.arrayBuffer();
+//         setRom(arrayBuffer);
+//         console.log("ROM loaded:", file.name, arrayBuffer.byteLength);
+//     };
+
+//     return (
+//         <div className="p-4 text-center">
+//             {!rom ? (
+//                 <>
+//                     <h1 className="text-xl font-bold mb-2">Upload your Digimon World 3 ROM</h1>
+//                     <input type="file" accept=".bin,.iso,.img" onChange={handleFileChange} />
+//                 </>
+//             ) : (
+//                 <h2>ROM loaded successfully! 🎮</h2>
+//             )}
+//         </div>
+//     );
+// }
+
+// export default App;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
