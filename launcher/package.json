@@ -36,6 +36,9 @@
             "target": "dmg",
             "icon": "assets/icon.icns"
         },
+        "extraMetadata": {
+            "main": "src/main.js"
+        },
         "publish": [{
             "provider": "github",
             "owner": "SalahAmer2",

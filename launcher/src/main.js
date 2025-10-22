@@ -14,12 +14,33 @@ function createWindow() {
         },
     });
 
+    // if (process.env.VITE_DEV_SERVER_URL) {
+    //     // 🟢 Development: load Vite server
+    //     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+    // } else {
+    //     // 🔵 Production: load built files
+    //     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+    // }
+
+    // if (process.env.VITE_DEV_SERVER_URL) {
+    //     // 🟢 Development: load Vite server
+    //     console.log("🟢 Loading from dev server:", process.env.VITE_DEV_SERVER_URL);
+    //     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+    // } else {
+    //     // 🔵 Production: load built files
+    //     const filePath = path.join(__dirname, "../dist/index.html");
+    //     console.log("🔵 Loading from file:", filePath);
+    //     mainWindow.loadFile(filePath);
+    // }
+
     if (process.env.VITE_DEV_SERVER_URL) {
-        // 🟢 Development: load Vite server
+        console.log("🟢 Loading from dev server:", process.env.VITE_DEV_SERVER_URL);
         mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
     } else {
-        // 🔵 Production: load built files
-        mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+        // ✅ Use path relative to the app's resources after packaging
+        const indexPath = path.join(app.getAppPath(), "dist", "index.html");
+        console.log("🔵 Loading built file:", indexPath);
+        mainWindow.loadFile(indexPath);
     }
 
     // Check for updates once window is ready

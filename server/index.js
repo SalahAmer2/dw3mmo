@@ -1,10 +1,20 @@
 const http = require("http");
 const express = require("express");
+const cors = require("cors"); // ✅ added
 const { WebSocketServer } = require("ws");
 const jwt = require("jsonwebtoken");
 
 const SECRET = "supersecret"; // change in production
 const app = express();
+
+// ✅ Enable CORS for all incoming requests
+const corsOptions = {
+    origin: "*", // allow all (you can restrict later)
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Login endpoint -> issues a token
